@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ecom.model.Category;
 import com.ecom.repository.CategoryRepository;
 import com.ecom.service.CategoryService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CategoryServiceImpl implements CategoryService{
 	
 	@Autowired
@@ -20,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public List<Category> getAllCateGory() {
+	public List<Category> getAllCategory() {
 		// TODO Auto-generated method stub
 		return categoryRepository.findAll();
 	}

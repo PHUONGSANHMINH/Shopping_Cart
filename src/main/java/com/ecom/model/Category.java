@@ -4,11 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor           // Sinh constructor với tất cả các thuộc tính
 @NoArgsConstructor            // Sinh constructor không tham số
@@ -59,16 +55,5 @@ public class Category {
 		this.isActive = isActive;
 	}
 
-	public Category(int id, String name, String imageName, Boolean isActive) {
-		this.id = id;
-		this.name = name;
-		this.imageName = imageName;
-		this.isActive = isActive;
-	}
 
-	public Category() {
-
-	}
-    
-    
 }
