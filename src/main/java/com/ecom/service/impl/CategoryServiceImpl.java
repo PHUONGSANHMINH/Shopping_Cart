@@ -8,6 +8,7 @@ import com.ecom.model.Category;
 import com.ecom.repository.CategoryRepository;
 import com.ecom.service.CategoryService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 @Service
 public class CategoryServiceImpl implements CategoryService{
@@ -28,10 +29,26 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
+	public Boolean deleteCategory(int id) {
+		Category category = categoryRepository.findById(id).orElse(null);
+
+		if (!ObjectUtils.isEmpty(category)){
+			categoryRepository.delete(category);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Category getCategoryById(int id) {
+		Category category = categoryRepository.findById(id).orElse(null);
+		return category;
+	}
+
+	@Override
 	public Boolean existCategory(String name) {
-		// TODO Auto-generated method stub
 		return categoryRepository.existsByName(name);
 	}
-	
+
 	
 }
