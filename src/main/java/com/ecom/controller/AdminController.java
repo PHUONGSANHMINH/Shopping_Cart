@@ -34,7 +34,6 @@ public class AdminController {
 	@Autowired
 	private ProductService productService;
 
-
 	@GetMapping("/")
 	public String index() {
 		return "admin/index";
@@ -54,7 +53,8 @@ public class AdminController {
 	}
 
 	@PostMapping("/saveCategory")
-	public String saveCategory(@ModelAttribute Category category, @RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
+	public String saveCategory(@ModelAttribute Category category, @RequestParam("file") MultipartFile file,
+			HttpSession session) throws IOException {
 
 		String imageName = file != null ? file.getOriginalFilename() : "default.jpg";
 		category.setImageName(imageName);
@@ -102,7 +102,7 @@ public class AdminController {
 
 	@PostMapping("/updateCategory")
 	public String updateCategory(@ModelAttribute Category category, @RequestParam("file") MultipartFile file,
-								 HttpSession session) throws IOException {
+			HttpSession session) throws IOException {
 
 		Category oldcategory = categoryService.getCategoryById(category.getId());
 		String imageName = file.isEmpty() ? oldcategory.getImageName() : file.getOriginalFilename();
@@ -137,9 +137,9 @@ public class AdminController {
 	}
 
 	@PostMapping("/saveProduct")
-	private String saveProduct(@ModelAttribute Product product,@RequestParam("file") MultipartFile image,
-							   HttpSession session) throws IOException{
-		String imageName = image.isEmpty()? "default.jpg": image.getOriginalFilename();
+	private String saveProduct(@ModelAttribute Product product, @RequestParam("file") MultipartFile image,
+			HttpSession session) throws IOException {
+		String imageName = image.isEmpty() ? "default.jpg" : image.getOriginalFilename();
 		product.setImage(imageName);
 		Product saveProduct = productService.saveProduct(product);
 		if (!ObjectUtils.isEmpty(saveProduct)) {
@@ -165,7 +165,7 @@ public class AdminController {
 	}
 
 	@GetMapping("/deleteProduct/{id}")
-	public String deleteProduct (@PathVariable int id, HttpSession session) {
+	public String deleteProduct(@PathVariable int id, HttpSession session) {
 		Boolean deleteProduct = productService.deleteProduct(id);
 		if (deleteProduct) {
 			session.setAttribute("succMsg", "Product deleted successfully");
@@ -174,6 +174,24 @@ public class AdminController {
 		}
 		return "redirect:/admin/products";
 	}
+
+	@GetMapping("/editProduct/{id}")
+	public String editProduct(@PathVariable int id, Model m) {
+		m.addAttribute("product", productService.getProductById(id));
+		m.addAttribute("categories", categoryService.getAllCategory());
+		return "admin/edit_product";
+	}
+
+	@GetMapping("/updateProduct/{id}")
+	public String updateProduct(@ModelAttribute Product product, @RequestParam("file") MultipartFile image,
+			HttpSession session, Model m) {
+		Product updateProduct = productService.updateProduct(product, image);
+		if (!ObjectUtils.isEmpty(updateProduct)) {
+			session.setAttribute("succMsg", "Product update success");
+		} else {
+			session.setAttribute("errorMsg", "Something wrong on server");
+		}
+
+		return "redirect:/admin/editProduct" + product.getId();
+	}
 }
-
-
