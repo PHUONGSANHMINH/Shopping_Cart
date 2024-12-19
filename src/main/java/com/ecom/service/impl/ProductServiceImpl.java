@@ -53,15 +53,26 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product updateProduct(Product product, MultipartFile image) {
+
 		Product dbProduct = getProductById(product.getId());
+
 		String imageName = image.isEmpty() ? dbProduct.getImage() : image.getOriginalFilename();
+
 		dbProduct.setTitle(product.getTitle());
 		dbProduct.setDescription(product.getDescription());
 		dbProduct.setCategory(product.getCategory());
 		dbProduct.setPrice(product.getPrice());
 		dbProduct.setStock(product.getStock());
 		dbProduct.setImage(imageName);
-		
+		dbProduct.setIsActive(product.getIsActive());
+		dbProduct.setDiscount(product.getDiscount());
+
+		// 5 = 100 *(5/100); 100 - 5 = 95
+		Double discount = product.getPrice() * (product.getDiscount() / 100.0);
+		Double discountPrice = product.getPrice() - discount;
+		dbProduct.setDiscountPrice(discountPrice);
+
+
 		Product updateProduct = productRepository.save(dbProduct);
 		
 		if (!ObjectUtils.isEmpty(updateProduct)) {
@@ -82,6 +93,12 @@ public class ProductServiceImpl implements ProductService {
 		} 
 		return null;
 	}
-    
-    
+
+	@Override
+	public List<Product> getAllActiveProducts() {
+		List<Product> products = productRepository.findByIsActiveTrue();
+		return products;
+	}
+
+
 }
