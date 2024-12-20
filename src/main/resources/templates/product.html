@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{base::Layout(~{::section})}">
+      th:replace="~{base :: Layout(~{::section})}">
 <head>
 <meta charset="UTF-8">
 <title>Title</title>
@@ -49,7 +49,7 @@
 						<div class="card-body shadow-sm p-3 mb-5 bg-body-tertiary rounded">
 							<p class="fs-3 text-center">Products</p>
 							<div class="row">
-							<th: block th: if="${products.size >0}">
+							<th:block th:if="${products.size >0}">
 								<div class="col-md-3" th:each="p:${products}">
 									<div class="card">
 										<div class="card-body">
@@ -63,7 +63,7 @@
 														&#36;[[${p.price}]]</span> <span class="fs-6 text-success">
 														[[${p.discount}]]% off</span>
 												</p>
-												<a th:href="@{'/product' +${p.id}}"
+												<a th:href="@{'/product/' +${p.id}}"
 													class="btn btn-primary col-md-6 offset-md-3"> View
 													Details </a>
 											</div>
@@ -71,10 +71,10 @@
 									</div>
 								</div>
 								</th:block>
-								<th: block th: unless="${products.size > 0}">
+								<th:block th:unless="${products.size > 0}">
 								<p class="fs-4 text-center mt-4 text-danger">
 								</p>
-								</th: block>
+								</th:block>
 							</div>
 						</div>
 					</div>
