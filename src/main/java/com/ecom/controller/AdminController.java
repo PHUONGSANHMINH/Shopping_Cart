@@ -218,4 +218,11 @@ public class AdminController {
 		}
 		return "redirect:/admin/editProduct/" + product.getId();
 	}
+
+	@GetMapping("/users")
+	public String getAllUsers(Model m){
+		List<UserDtls> users = userService.getAllUsers("ROLE_USER");
+		m.addAttribute("users", users);
+		return "/admin/users";
+	}
 }
