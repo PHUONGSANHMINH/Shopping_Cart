@@ -1,6 +1,8 @@
 package com.ecom.controller;
 
+import com.ecom.model.Category;
 import com.ecom.model.UserDtls;
+import com.ecom.service.CategoryService;
 import com.ecom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,10 +12,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     private UserService userService;
@@ -30,5 +36,8 @@ public class UserController {
             UserDtls userDtls = userService.getUserByEmail(email);
             m.addAttribute("user", userDtls);
         }
+
+        List<Category> allActiveCategory = categoryService.getAllActiveCatgory();
+        m.addAttribute("categorys", allActiveCategory);
     }
 }
